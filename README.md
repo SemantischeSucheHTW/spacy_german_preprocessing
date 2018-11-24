@@ -14,7 +14,10 @@ The project uses pipenv to manage dependencies. You can install all requirements
     $ pipenv shell
     $ pipenv run python -m spacy download de
 
-    
+**Jupyter Notebook Showcase:**
+
+[Jupyter Notebook for spacy-german-preprocess](https://github.com/Mistscream/spacy_german_preprocess_showcase/blob/master/preprocess-showcase.ipynb)
+
 **Still ToDo:**
 
  - edit stopword list
