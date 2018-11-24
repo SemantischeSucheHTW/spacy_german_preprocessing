@@ -2,7 +2,12 @@
 
 **Install:**
 
+Install via pip:
+    
+    $ pip3 install spacy-german-preprocess
+    $ python -m spacy download de
 
+Or:
 The project uses pipenv to manage dependencies. You can install all requirements with the following command:
 
     $ pipenv install
