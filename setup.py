@@ -11,7 +11,7 @@ setuptools.setup(
     description="A small package for preprocessing german text",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
+    url="https://github.com/Mistscream/spacy_german_preprocessing",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
