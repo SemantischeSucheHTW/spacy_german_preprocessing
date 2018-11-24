@@ -8,6 +8,8 @@ from spacy.lang.char_classes import ALPHA
 
 from iwnlp.iwnlp_wrapper import IWNLPWrapper
 
+import os
+
 def custom_tokenizer(nlp):
     infixes = list(nlp.Defaults.infixes)
 
@@ -28,7 +30,6 @@ def custom_tokenizer(nlp):
                      infix_finditer=infix_re.finditer,
                      token_match=None)
 
-
 class Preprocess:
     # zur Lemmatisierung im Deutschen
 
@@ -36,8 +37,10 @@ class Preprocess:
     nlp = spacy.load('de')
 
     # IWNLP German Lemmatizations:
+    dirname = os.path.dirname(__file__)
+    iwnlp_file = os.path.join(dirname, 'data/IWNLP.Lemmatizer_20181001.json')
     #iwnlp = spaCyIWNLP(lemmatizer_path='data/IWNLP.Lemmatizer_20181001.json', ignore_case=True)
-    lemmatizer = IWNLPWrapper(lemmatizer_path='data/IWNLP.Lemmatizer_20181001.json')
+    lemmatizer = IWNLPWrapper(lemmatizer_path=iwnlp_file)
 
     #add custom tokenizer
     nlp.tokenizer = custom_tokenizer(nlp)
@@ -64,7 +67,6 @@ class Preprocess:
                       'PTKVZ', 'PTKZU', 'PWAT', 'PWAV', 'PWS', 'TRUNC', 'XY', 'SP',
                       'WRP']
 
-
     def __init__(self, text, split_in_sentences=True, with_pos=False):
         '''
 
@@ -72,6 +74,8 @@ class Preprocess:
         :param split_in_sentences: split text in sentences --> sub-arrays for sentences in Preprocess-result
         :param with_pos: true: give tripel with (<startpos in orig-text>, <endpos in origtext>, token), else only tokens
         '''
+
+
         self.text = text
         self.nlp_text = self.nlp(text)
 

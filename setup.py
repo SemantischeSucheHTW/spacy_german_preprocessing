@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="spacy_german_preprocess",
-    version="0.0.1",
+    version="0.0.2",
     author="Sebastian Jüngling",
     author_email="author@example.com",
     description="A small package for preprocessing german text",
@@ -18,4 +18,12 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    #include_package_data=True
+    install_requires=[
+        'spacy',
+        'spacy-iwnlp'
+    ],
+    package_data={
+        'spacy_preprocessing': ['data/*.json'],
+    }
 )
