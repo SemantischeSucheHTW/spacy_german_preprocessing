@@ -178,7 +178,7 @@ class Preprocess:
 
         for token in doc:
             if self.__is_valid_token(token) and not token.tag_ in self.tags_to_remove or token.i in self.maintain_indeces:
-                token_out = self.__get_lemma(token).lower() if do_lemma else token
+                token_out = self.__get_lemma(token).lower() if do_lemma else str(token)
                 tokenized_text.append((token.idx, token.idx + len(token), token_out) if with_pos else token_out)
 
         #tokenized_text = [(token.idx, token.idx + len(token), self.__get_lemma(token).lower()) if with_pos else self.__get_lemma(token).lower() for token in doc
