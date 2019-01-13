@@ -167,22 +167,29 @@ class Preprocess:
 
         return False
 
-    def __tokenize_words(self, doc, with_pos=False):
+    def __tokenize_words(self, doc, with_pos=False, do_lemma=True):
         '''
         tokenizes text and removes unimportant tokens
         :param doc: input spacy doc
         :param with_pos: true: give tripel with (<startpos in orig-text>, <endpos in origtext>, token), else only tokens
         :return: 1d array of tokens
         '''
-        tokenized_text = [(token.idx, token.idx + len(token), self.__get_lemma(token).lower()) if with_pos else self.__get_lemma(token).lower() for token in doc
-                          if self.__is_valid_token(token)
-                          and not token.tag_ in self.tags_to_remove
-                          or token.i in self.maintain_indeces]
+        tokenized_text = []
+
+        for token in doc:
+            if self.__is_valid_token(token) and not token.tag_ in self.tags_to_remove or token.i in self.maintain_indeces:
+                token_out = self.__get_lemma(token).lower() if do_lemma else token
+                tokenized_text.append((token.idx, token.idx + len(token), token_out) if with_pos else token_out)
+
+        #tokenized_text = [(token.idx, token.idx + len(token), self.__get_lemma(token).lower()) if with_pos else self.__get_lemma(token).lower() for token in doc
+        #                  if self.__is_valid_token(token)
+        #                  and not token.tag_ in self.tags_to_remove
+        #                  or token.i in self.maintain_indeces]
 
         return tokenized_text
 
 
-    def __tokenize_to_list_sentences(self, with_pos=False):
+    def __tokenize_to_list_sentences(self, with_pos=False, do_lemma=True):
         '''
         tokenizes text and removes unimportant tokens, split by sentences
         :param with_pos: true: give tripel with (<startpos in orig-text>, <endpos in origtext>, token), else only tokens
@@ -190,12 +197,12 @@ class Preprocess:
         '''
         filtered_text = []
         for sentence in self.nlp_text.sents:
-            filtered_sentence = self.__tokenize_words(sentence, with_pos=with_pos)
+            filtered_sentence = self.__tokenize_words(sentence, with_pos=with_pos, do_lemma=do_lemma)
             filtered_text.append(filtered_sentence)
 
         return filtered_text
 
-    def preprocess(self, sentence_split=True, with_pos=False):
+    def preprocess(self, sentence_split=True, with_pos=False, do_lemma=True):
         '''
         preprocess text. removes unimportant tokens
         :param sentence_split: split by sentences
@@ -203,9 +210,9 @@ class Preprocess:
         :return: 1d or 2d array with preprocessed text
         '''
         if sentence_split:
-            preprocessed_text = self.__tokenize_to_list_sentences(with_pos=with_pos)
+            preprocessed_text = self.__tokenize_to_list_sentences(with_pos=with_pos, do_lemma=do_lemma)
         else:
-            preprocessed_text = self.__tokenize_words(self.nlp_text, with_pos=with_pos)
+            preprocessed_text = self.__tokenize_words(self.nlp_text, with_pos=with_pos, do_lemma=do_lemma)
 
         return preprocessed_text
 
