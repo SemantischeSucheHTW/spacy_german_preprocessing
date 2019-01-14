@@ -162,7 +162,9 @@ class Preprocess:
         :return: bool
         '''
         # nlp(token.lower_)[0] wegen spacy bug --> z.B. "Der" würde nicht als stopwort erkannt werden, "der" aber schon
-        if not self.nlp(token.lower_)[0].is_stop and not token.is_punct and not token.is_space:
+        vocab = self.nlp.vocab[token.lower_]
+
+        if not vocab.is_stop and not vocab.is_punct and not vocab.is_space:
             return True
 
         return False
